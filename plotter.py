@@ -37,12 +37,17 @@ class GaltonBoardPlotter:
         self.ax.set_title("Galton Board Results")
         self.ax.legend()
 
-    def plot_normal_distribution(self, results):
-        mean = np.mean(results)
-        std_dev = np.std(results)
+    def plot_normal_distribution(self, num_balls, mean=0, std_dev=0, results=None):
+        if results is None and mean == 0 and std_dev == 0:
+            print("Need one of (mean, std_dev) or results to plot")
+            return
 
-        x = np.linspace(min(results), max(results), 100)
-        p = norm.pdf(x, mean, std_dev) * len(results)
+        if mean == 0 and std_dev == 0 and results is not None:
+            mean = np.mean(results)
+            std_dev = np.std(results)
+
+        x = np.linspace(mean - 4 * std_dev, mean + 4 * std_dev, num_balls)
+        p = norm.pdf(x, mean, std_dev) * num_balls
 
         self.ax.plot(x, p, 'r-', label='Normal Distribution')
         self.ax.set_xlabel('Position')
