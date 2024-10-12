@@ -41,3 +41,5 @@ if __name__ == "__main__":
         mse_binomial = error_calculator.calculate_mse_binomial()
         print(f"      {mse_normal} \t\t |    {mse_binomial}")
 
+    input("Press Enter to exit...")
+

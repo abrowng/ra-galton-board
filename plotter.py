@@ -72,4 +72,4 @@ class GaltonBoardPlotter:
         self.ax.legend()
 
     def show(self):
-        plt.show()
+        plt.show(block=False)
