@@ -9,6 +9,7 @@ class GaltonBoardPlotter:
 
     def __init__(self):
         self.fig, self.ax = plt.subplots()
+        self.ax.set_title("Galton Board Results vs Distributions")
 
     def plot_results(self, results):
         counter = Counter(results)
@@ -22,7 +23,6 @@ class GaltonBoardPlotter:
         )
         self.ax.set_xlabel("Position")
         self.ax.set_ylabel("Number of Balls")
-        self.ax.set_title("Galton Board Results")
         self.ax.legend()
 
     def plot_normal_distribution(self, num_balls, mean=0, std_dev=0, results=None):
@@ -38,9 +38,6 @@ class GaltonBoardPlotter:
         p = norm.pdf(x, mean, std_dev) * num_balls
 
         self.ax.plot(x, p, 'r-', label='Normal Distribution')
-        self.ax.set_xlabel('Position')
-        self.ax.set_ylabel('Density')
-        self.ax.set_title('Normal Distribution')
         self.ax.legend()
 
     def plot_binomial_distribution(self, levels, num_balls):
@@ -66,9 +63,6 @@ class GaltonBoardPlotter:
             label='Binomial Distribution',
             color='g',
         )
-        self.ax.set_xlabel('Position')
-        self.ax.set_ylabel('Probability')
-        self.ax.set_title('Binomial Distribution')
         self.ax.legend()
 
     def show(self):
