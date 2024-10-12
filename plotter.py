@@ -9,27 +9,15 @@ class GaltonBoardPlotter:
 
     def __init__(self):
         self.fig, self.ax = plt.subplots()
-        self.first_non_zero_i = 0
-        self.last_non_zero_i = 0
 
-    def plot_results(self, results, levels):
+    def plot_results(self, results):
         counter = Counter(results)
-        positions = list(range(levels + 1))
-        counts = []
-        for i, p in enumerate(positions):
-            count = counter[p]
-            counts.append(count)
-            if self.first_non_zero_i <= 0 < count:
-                self.first_non_zero_i = i
-            if count > 0:
-                self.last_non_zero_i = i
-
-        if self.last_non_zero_i == 0:
-            self.last_non_zero_i = len(positions)
+        counts = list(counter.values())
+        x = list(counter.keys())
 
         self.ax.bar(
-            positions[self.first_non_zero_i:self.last_non_zero_i],
-            counts[self.first_non_zero_i:self.last_non_zero_i],
+            x,
+            counts,
             label="Galton Board Results",
         )
         self.ax.set_xlabel("Position")
@@ -46,7 +34,7 @@ class GaltonBoardPlotter:
             mean = np.mean(results)
             std_dev = np.std(results)
 
-        x = np.linspace(mean - 4 * std_dev, mean + 4 * std_dev, num_balls)
+        x = np.linspace(mean - 3 * std_dev, mean + 3 * std_dev, 500)
         p = norm.pdf(x, mean, std_dev) * num_balls
 
         self.ax.plot(x, p, 'r-', label='Normal Distribution')
@@ -59,12 +47,21 @@ class GaltonBoardPlotter:
         positions = list(range(levels + 1))
         binom_pmf = binom.pmf(positions, levels, 0.5) * num_balls
 
-        if self.last_non_zero_i == 0:
-            self.last_non_zero_i = len(positions)
+        # Find the first and last large > 1 values so that the plot is centered
+        first_non_zero_i = 0
+        last_non_zero_i = 0
+        for i, count in enumerate(binom_pmf):
+            if count > 1:
+                first_non_zero_i = i
+                break
+        for i, count in enumerate(binom_pmf[::-1]):
+            if count > 1:
+                last_non_zero_i = len(binom_pmf) - i
+                break
 
         self.ax.bar(
-            positions[self.first_non_zero_i:self.last_non_zero_i],
-            binom_pmf[self.first_non_zero_i:self.last_non_zero_i],
+            positions[first_non_zero_i:last_non_zero_i],
+            binom_pmf[first_non_zero_i:last_non_zero_i],
             alpha=0.4,                            # Make it transparent to see the board results
             label='Binomial Distribution',
             color='g',
