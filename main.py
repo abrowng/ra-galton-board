@@ -6,6 +6,12 @@ from plotter import GaltonBoardPlotter
 from test import GaltonBoardTest
 
 TESTS_MATRIX = [
+    # GaltonBoardTest(5, 1000),
+    # GaltonBoardTest(10, 1000),
+    # GaltonBoardTest(50, 1000),
+    # GaltonBoardTest(100, 1000),
+    # GaltonBoardTest(500, 1000),
+    # GaltonBoardTest(1000, 1000),
     GaltonBoardTest(100, 50),
     GaltonBoardTest(100, 100),
     GaltonBoardTest(100, 500),
